@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../features/landing/screens/landing_screen.dart';
-import 'colors.dart';
 
 
 class App extends StatelessWidget {
@@ -24,11 +23,11 @@ class App extends StatelessWidget {
           useMaterial3: true,
         ),
         home: MultiBlocProvider(
-          child: const LandingScreen(),
           providers: [
             BlocProvider(create: (context) => AuthBloc()..add(InitAuth())),
             BlocProvider(create: (context) => ChessBloc())
           ],
+          child: LandingScreen(),
         )
     );
   }

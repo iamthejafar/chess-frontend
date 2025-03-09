@@ -2,20 +2,36 @@ import 'package:chess/src/features/landing/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:google_sign_in_web/web_only.dart' as web;
+import 'package:logger/logger.dart';
 
 import '../../ches_board/screens/chess_board_screen.dart';
+import '../../ches_board/screens/chess_screen.dart';
 
 class LandingScreen extends StatelessWidget {
-  const LandingScreen({super.key});
+  final Logger _logger = Logger();
+   LandingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final textTheme = Theme.of(context).textTheme;
     final authBloc = context.read<AuthBloc>();
-    return Scaffold(
+
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthAuthenticated) {
+          _logger.i('User authenticated: ${state.user.username}');
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ChessScreen())
+          );
+        } else if (state is AuthError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.error))
+          );
+        }
+      },
+      child: 
+    Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50.0),
         child: Row(
@@ -40,7 +56,7 @@ class LandingScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>ChessScreen()));
+                          authBloc.add(GuestSignInRequested(name: 'Jafar'));
                         },
                         child: Container(
                           padding:  EdgeInsets.symmetric(vertical: 5, horizontal: 15,),
@@ -53,38 +69,34 @@ class LandingScreen extends StatelessWidget {
                       Gap(10),
 
 
-                      web.renderButton(
-                        configuration: web.GSIButtonConfiguration(
 
-                        )
-                      )
-                      // InkWell(
-                      //   onTap: () async {
-                      //
-                      //     authBloc.add(GoogleSignInRequested());
-                      //     // const List<String> scopes = <String>[
-                      //     //   'email',
-                      //     //   'https://www.googleapis.com/auth/contacts.readonly',
-                      //     // ];
-                      //     // GoogleSignIn googleSignIn = GoogleSignIn(
-                      //     //   clientId: "",
-                      //     //   scopes: scopes
-                      //     // );
-                      //     //
-                      //     // try{
-                      //     //   await googleSignIn.signIn();
-                      //     // } catch(e){
-                      //     //   print(e);
-                      //     // }
-                      //   },
-                      //   child: Container(
-                      //      padding:  EdgeInsets.symmetric(vertical: 5, horizontal: 15,),
-                      //     decoration:  BoxDecoration(
-                      //       color: Color(0xffbfa5a5),
-                      //       borderRadius: BorderRadius.circular(8)
-                      //     ),
-                      //     child: Text("Sign In",style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),),
-                      // ),
+                      InkWell(
+                        onTap: () async {
+
+                          authBloc.add(GoogleSignInRequested());
+                          // const List<String> scopes = <String>[
+                          //   'email',
+                          //   'https://www.googleapis.com/auth/contacts.readonly',
+                          // ];
+                          // GoogleSignIn googleSignIn = GoogleSignIn(
+                          //   clientId: "",
+                          //   scopes: scopes
+                          // );
+                          //
+                          // try{
+                          //   await googleSignIn.signIn();
+                          // } catch(e){
+                          //   print(e);
+                          // }
+                        },
+                        child: Container(
+                           padding:  EdgeInsets.symmetric(vertical: 5, horizontal: 15,),
+                          decoration:  BoxDecoration(
+                            color: Color(0xffbfa5a5),
+                            borderRadius: BorderRadius.circular(8)
+                          ),
+                          child: Text("Sign In",style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w500),),),
+                      ),
                     ],
                   )
                 ],
@@ -107,14 +119,12 @@ class LandingScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
+
   }
 }
 
 
 
-Widget buildSignInButton({Function? onPressed}) {
-  return web.renderButton();
-}
 
 

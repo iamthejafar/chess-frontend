@@ -8,8 +8,8 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthAuthenticated extends AuthState {
-  final String userEmail;
-  AuthAuthenticated({required this.userEmail});
+  final UserModel user;
+  AuthAuthenticated({required this.user});
 }
 
 class AuthError extends AuthState {

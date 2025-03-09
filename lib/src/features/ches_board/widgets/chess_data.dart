@@ -1,6 +1,6 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/chess_utils.dart';
@@ -20,7 +20,8 @@ class ChessData extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-            color: const Color(0xfff4858), borderRadius: BorderRadius.circular(8)),
+            color: const Color(0xfff4858),
+            borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(20),
         margin: const EdgeInsets.symmetric(horizontal: 50.0),
         child: Column(
@@ -111,15 +112,18 @@ class ChessData extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () {}, icon: const Icon(CupertinoIcons.back)),
+                        onPressed: () {},
+                        icon: const Icon(CupertinoIcons.back)),
                     IconButton(
                         onPressed: () {},
                         icon: const Icon(CupertinoIcons.arrow_clockwise)),
                     IconButton(
-                        onPressed: () {}, icon: const Icon(CupertinoIcons.forward)),
+                        onPressed: () {},
+                        icon: const Icon(CupertinoIcons.forward)),
                   ],
                 ),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.share_outlined))
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.share_outlined))
               ],
             ),
           ],
