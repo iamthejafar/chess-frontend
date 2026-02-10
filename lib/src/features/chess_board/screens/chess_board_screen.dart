@@ -1,4 +1,4 @@
-// import 'package:chess/src/features/ches_board/widgets/chess_data.dart';
+// import 'package:chess/src/features/chess_board/widgets/chess_data.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 //

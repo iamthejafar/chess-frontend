@@ -1,9 +1,10 @@
-import 'package:chess/src/features/ches_board/bloc/chess_bloc.dart';
+import 'package:chess/src/features/chess_board/screens/chess_screen.dart';
 import 'package:chess/src/features/landing/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../features/chess_board/bloc/chess_bloc.dart';
 import '../features/landing/screens/landing_screen.dart';
 
 
@@ -27,7 +28,7 @@ class App extends StatelessWidget {
             BlocProvider(create: (context) => AuthBloc()..add(InitAuth())),
             BlocProvider(create: (context) => ChessBloc())
           ],
-          child: LandingScreen(),
+          child: ChessScreen(),
         )
     );
   }

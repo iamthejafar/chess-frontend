@@ -1,120 +1,72 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:web_socket_channel/status.dart' as status;
-import '../features/landing/models/user_model.dart';
-import 'storage_service.dart';
+
+import 'package:stomp_dart_client/stomp_dart_client.dart';
+import 'package:logger/logger.dart';
 
 class WebSocketService {
-  static final WebSocketService _instance = WebSocketService._internal();
-  factory WebSocketService() => _instance;
-  WebSocketService._internal();
+  StompClient? stompClient;
+  final Logger logger = Logger();
 
-  WebSocketChannel? _channel;
-  Function(Map<String, dynamic>)? _onMessageCallback;
-  final StorageService _storage = StorageService();
+  void connect() {
+    stompClient = StompClient(
+      config: StompConfig(
+        url: 'ws://localhost:8080/ws',
+        onConnect: onConnected,
+        beforeConnect: () async {
+          logger.i("Connecting to WebSocket...");
+        },
+        onWebSocketError: (dynamic error) =>
+            logger.e("WebSocket Error: $error"),
 
-  void connect(String baseUrl) {
-    final user = _storage.getUser();
-    if (user == null) return;
-
-    _channel = WebSocketChannel.connect(
-      Uri.parse(baseUrl),
-    );
-    _channel?.stream.listen(
-      (message) {
-        if (message == 'Connection established') {
-          // Initial connection message, we can ignore this
-          return;
-        }
-        try {
-          final data = jsonDecode(message);
-          if (_onMessageCallback != null) {
-            _onMessageCallback!(data);
-          }
-        } catch (e) {
-          print('Error decoding JSON: $e');
-        }
-      },
-      onError: (error) {
-        print('WebSocket Error: ${error.toString()}');
-      },
-      onDone: () {
-        print('WebSocket connection closed');
-      },
+      ),
     );
 
+    stompClient?.activate();
   }
 
-  void joinGame() {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
-
-    _channel?.sink.add(jsonEncode({
-      "message": "JOIN",
-      "uid": user.uid,
-      "name": user.displayName,
-    }));
+  void onConnected(StompFrame frame) {
+    logger.i("Connected to WebSocket!");
+    initGame();
   }
 
-  void makeMove(String gameId, String from, String to, {String? promotionPiece}) {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
-
-    final message = {
-      "message": "MOVE",
-      "gameId": gameId,
-      "playerUid": user.uid,
-      "from": from,
-      "to": to,
+  void initGame() {
+    subscribeToGameUpdates();
+    Map body =  {
+      "userId": "",
+      "isGuestUser": true
     };
 
-    if (promotionPiece != null) {
-      message["promotionPiece"] = promotionPiece;
-    }
+    stompClient?.send(
+      destination: '/app/init-game',
+      body: jsonEncode(body),
+      headers: {
+        'content-type': 'application/json'
+      },
+    );
 
-    _channel?.sink.add(jsonEncode(message));
+
+    logger.i("Sent INIT GAME event");
   }
 
-  void resignGame(String gameId) {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
+  void subscribeToGameUpdates() {
+    // Subscribe to user-specific queue
+    stompClient?.subscribe(
+        destination: "/user/queue/status",
+        callback: (frame) {
+          print("Status update received:");
+          print(frame.body);
+        }
+    );
 
-    _channel?.sink.add(jsonEncode({
-      "message": "RESIGN",
-      "gameId": gameId,
-      "playerUid": user.uid,
-    }));
+    stompClient?.subscribe(
+        destination: "/user/queue/match",
+        callback: (frame) {
+          print("Match update received:");
+          print(frame.body);
+        }
+    );
   }
-
-  void offerDraw(String gameId) {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
-
-    _channel?.sink.add(jsonEncode({
-      "message": "DRAW_OFFER",
-      "gameId": gameId,
-      "playerUid": user.uid,
-    }));
-  }
-
-  void respondToDraw(String gameId, bool accepted) {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
-
-    _channel?.sink.add(jsonEncode({
-      "message": "DRAW_RESPONSE",
-      "gameId": gameId,
-      "playerUid": user.uid,
-      "accepted": accepted,
-    }));
-  }
-
-  void setOnMessageCallback(Function(Map<String, dynamic>) callback) {
-    _onMessageCallback = callback;
-  }
-
   void disconnect() {
-    _channel?.sink.close(status.goingAway);
+    stompClient?.deactivate();
   }
 }

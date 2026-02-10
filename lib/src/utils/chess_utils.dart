@@ -1,6 +1,7 @@
 import 'package:bishop/bishop.dart';
 
-import '../features/ches_board/models/move_model.dart';
+import '../features/chess_board/models/move_model.dart';
+
 
 class ChessUtils {
   static String indexToSquare(int index) {

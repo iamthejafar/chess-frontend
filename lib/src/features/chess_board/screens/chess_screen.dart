@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/chess_bloc.dart';
 import '../bloc/game_bloc.dart';
 import '../widgets/chess_board.dart';
 import 'package:logger/logger.dart';
 
-import '../widgets/chess_data.dart';
 
 class ChessScreen extends StatelessWidget {
   final Logger _logger = Logger();
@@ -36,7 +34,7 @@ class ChessScreen extends StatelessWidget {
                                 final to = _indexToSquare(toIndex);
                                 context
                                     .read<GameBloc>()
-                                    .add(MovePiece(from, to));
+                                    .add(MovePiece(from: from, to: to));
                               },
                               turnColor: state.sideToMove.toLowerCase(),
                               getPossibleMoves: (index) {

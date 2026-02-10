@@ -12,7 +12,7 @@ class AuthRepository {
       scopes: ['email', 'https://www.googleapis.com/auth/contacts.readonly']);
   final ApiClient _apiClient = ApiClient();
 
-  Future<String> signInWithGoogle() async {
+  Future<GoogleSignInAccount> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
@@ -30,7 +30,8 @@ class AuthRepository {
       );
 
       if (response.statusCode == 200) {
-        return googleUser.email;
+
+        return googleUser;
       } else {
         throw Exception('Failed to authenticate with backend.');
       }
@@ -45,11 +46,8 @@ class AuthRepository {
 
   Future<UserModel> signInAsGuest(String name) async {
     try {
-      final response = await _apiClient.post(
-        'auth/guest',
-        data: {
-          'name': name,
-        },
+      final response = await _apiClient.get(
+        'auth/guest'
       );
 
       if (response.statusCode == 200) {

@@ -41,8 +41,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
 
 
-      // final userEmail = await _authRepository.signInWithGoogle();
-      // _logger.i("User authenticated successfully: $userEmail");
+      final userEmail = await _authRepository.signInWithGoogle();
+      _logger.i("User authenticated successfully: $userEmail");
       // emit(AuthAuthenticated(userEmail: userEmail));
     } catch (e) {
       _logger.e("Authentication error: $e");

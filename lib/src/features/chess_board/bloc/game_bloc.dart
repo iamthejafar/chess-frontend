@@ -15,7 +15,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<MovePiece>(_onMovePiece);
     on<GameUpdate>(_onGameUpdate);
 
-    _webSocketService.setOnMessageCallback(_handleWebSocketMessage);
+    // _webSocketService.setOnMessageCallback(_handleWebSocketMessage);
   }
 
   void _handleWebSocketMessage(Map<String, dynamic> message) {
@@ -24,7 +24,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
 
     if (message['type'] == 'ERROR') {
-      emit(GameError(message['message']));
+      // emit(GameError(message['message']));
       return;
     }
 
@@ -39,8 +39,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   Future<void> _onStartGame(StartGame event, Emitter<GameState> emit) async {
     emit(GameLoading());
     try {
-      _webSocketService.connect('ws://localhost:8080/ws/game'); // Replace with your backend URL
-      _webSocketService.joinGame();
+
+      _webSocketService.connect();
+      // _webSocketService.joinGame();
     } catch (e) {
       _logger.e('Error starting game: $e');
       emit(GameError(e.toString()));
@@ -52,7 +53,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       if (_gameId == null) {
         throw Exception('Game not started');
       }
-      _webSocketService.makeMove(_gameId!, event.from, event.to);
+      // _webSocketService.makeMove(_gameId!, event.from, event.to);
     } catch (e) {
       _logger.e('Error making move: $e');
       emit(GameError(e.toString()));
@@ -68,13 +69,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       isCheckmate: data['isCheckmate'] ?? false,
       isGameOver: data['isGameOver'] ?? false,
       whitePlayer: data['whitePlayer'],
-      blackPlayer: data['blackPlayer'],
+      blackPlayer: data['blackPlayer'], gameId: '',
     ));
   }
 
   @override
   Future<void> close() {
-    _webSocketService.disconnect();
+    // _webSocketService.disconnect();
     return super.close();
   }
 }
