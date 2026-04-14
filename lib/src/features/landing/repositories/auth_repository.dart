@@ -129,7 +129,7 @@ class AuthRepository {
     _logger.i('Authenticating with backend using Google ID token...');
     try {
       final response = await _apiClient.post(
-        'auth/google',
+        '/api/auth/google',
         data: {'idToken': idToken},
       );
 
@@ -153,7 +153,7 @@ class AuthRepository {
 
   Future<UserModel> signInAsGuest() async {
     try {
-      final response = await _apiClient.post('auth/guest');
+      final response = await _apiClient.post('/api/auth/guest');
       if (response.statusCode == 200) {
         _logger.i(
           'Guest user authenticated successfully with response: ${response.data}',

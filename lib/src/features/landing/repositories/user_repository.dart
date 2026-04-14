@@ -9,7 +9,7 @@ class UserRepository {
   Future<UserModel?> getUser(String userId) async {
     try {
       final response = await _apiClient.get(
-        'user',
+        '/api/user',
         queryParameters: {'userId': userId},
       );
 
@@ -29,7 +29,7 @@ class UserRepository {
   }) async {
     try {
       final response = await _apiClient.put(
-        'user/$userId',
+        '/api/user/$userId',
         data: {'name': name, 'username': username},
       );
 
@@ -61,7 +61,7 @@ class UserRepository {
   }) async {
     try {
       final response = await _apiClient.uploadFile(
-        'user/$userId/photo',
+        '/api/user/$userId/photo',
         filePath: filePath,
         fileBytes: fileBytes,
         fileName: fileName,
@@ -91,7 +91,7 @@ class UserRepository {
   }) async {
     try {
       final response = await _apiClient.get(
-        'game/history',
+        '/api/game/history',
         queryParameters: {
           'userId': userId,
           'page': page,

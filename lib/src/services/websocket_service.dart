@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
+import '../../dotenv.dart';
 import 'storage_service.dart';
 
 class WebSocketService {
@@ -12,11 +13,11 @@ class WebSocketService {
   Function(Map<String, dynamic>)? _onMessageCallback;
   final StorageService _storage = StorageService();
 
-  void connect(String baseUrl) {
+  void connect() {
     final user = _storage.getUser();
     if (user == null) return;
 
-    _channel = WebSocketChannel.connect(Uri.parse(baseUrl));
+    _channel = WebSocketChannel.connect(Uri.parse('ws://$liveUrl/chess'));
     _channel!.stream.listen(
       (message) {
 

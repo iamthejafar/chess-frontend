@@ -61,7 +61,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     try {
       _webSocketService.disconnect();
       game = Game(variant: Variant.standard());
-      _webSocketService.connect('ws://$liveUrl/chess');
+      _webSocketService.connect();
       await _webSocketService.initGame();
     } catch (e) {
       _logger.e('Error starting game: $e');
