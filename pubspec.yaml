@@ -1,66 +1,48 @@
 name: chess
-description: "a simple chess application"
+description: "A new Flutter project."
 
-publish_to: 'none' 
+publish_to: 'none'
+
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: ^3.10.8
+
+
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.6
-  flutter_bloc: ^8.1.6
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_bloc: ^9.1.1
   bishop: ^1.4.4
-  google_sign_in: ^6.2.1
+  google_sign_in: ^7.2.0
   gap: ^3.0.1
-  google_fonts: ^6.2.1
-  firebase_core: ^2.24.2
-  dio: ^5.6.0
-  logger: ^2.4.0
-  json_annotation: ^4.9.0
-  shared_preferences: ^2.2.2
+  google_fonts: ^8.0.1
+  dio: ^5.9.1
+  logger: ^2.6.2
+  json_annotation: ^4.11.0
+  shared_preferences: ^2.5.4
   get_storage: ^2.1.1
+  responsive_builder: ^0.7.1
+  web_socket_channel: ^3.0.3
+  file_picker: ^10.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
-  build_runner: ^2.4.8
-  json_serializable: ^6.7.1
+  json_serializable: ^6.13.0
+  build_runner: ^2.11.1
+  flutter_lints: ^6.0.0
 
 
 flutter:
+  generate: true
+
+
   uses-material-design: true
 
   assets:
     - assets/images/
-  
-  
-  
-
-  
-  
-
-  
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  

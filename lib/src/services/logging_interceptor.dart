@@ -6,7 +6,9 @@ class LoggingInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    logger.i("Request [${options.method}] => PATH: ${options.path} => DATA: ${options.data}");
+    logger.i(
+      "Request [${options.method}] => PATH: ${options.path} => DATA: ${options.data}",
+    );
     super.onRequest(options, handler);
   }
 
@@ -17,7 +19,7 @@ class LoggingInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     logger.e("Error [${err.response?.statusCode}] => MESSAGE: ${err.message}");
     super.onError(err, handler);
   }

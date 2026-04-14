@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
-import '../features/landing/models/user_model.dart';
 import 'storage_service.dart';
 
 class WebSocketService {
@@ -18,13 +16,12 @@ class WebSocketService {
     final user = _storage.getUser();
     if (user == null) return;
 
-    _channel = WebSocketChannel.connect(
-      Uri.parse(baseUrl),
-    );
-    _channel?.stream.listen(
+    _channel = WebSocketChannel.connect(Uri.parse(baseUrl));
+    _channel!.stream.listen(
       (message) {
+
+        print("WebSocket Message: $message");
         if (message == 'Connection established') {
-          // Initial connection message, we can ignore this
           return;
         }
         try {
@@ -43,71 +40,69 @@ class WebSocketService {
         print('WebSocket connection closed');
       },
     );
-
   }
 
-  void joinGame() {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
+  Future<void> initGame() async {
+    final userId = await _storage.getUserId();
+    if (_channel == null) return;
 
-    _channel?.sink.add(jsonEncode({
-      "message": "JOIN",
-      "uid": user.uid,
-      "name": user.displayName,
-    }));
+    try{
+      _channel!.sink.add(jsonEncode({"type": "INIT_GAME", "userId": userId}));
+
+    } catch(e){
+      print("Error initGame message: $e");
+    }
   }
 
-  void makeMove(String gameId, String from, String to, {String? promotionPiece}) {
+  void makeMove(
+    String gameId,
+    String from,
+    String to, {
+    String? promotion,
+  }) {
     final user = _storage.getUser();
     if (user == null || _channel == null) return;
 
     final message = {
-      "message": "MOVE",
+      "type": "MOVE",
       "gameId": gameId,
-      "playerUid": user.uid,
+      "userId": user.id,
       "from": from,
       "to": to,
     };
 
-    if (promotionPiece != null) {
-      message["promotionPiece"] = promotionPiece;
+    if (promotion != null) {
+      message["promotion"] = promotion;
     }
 
     _channel?.sink.add(jsonEncode(message));
   }
 
-  void resignGame(String gameId) {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
-
-    _channel?.sink.add(jsonEncode({
-      "message": "RESIGN",
-      "gameId": gameId,
-      "playerUid": user.uid,
-    }));
+  void resign(String gameId, String userId) {
+    _sendGameAction(type: "RESIGN", gameId: gameId, userId: userId);
   }
 
-  void offerDraw(String gameId) {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
-
-    _channel?.sink.add(jsonEncode({
-      "message": "DRAW_OFFER",
-      "gameId": gameId,
-      "playerUid": user.uid,
-    }));
+  void offerDraw(String gameId, String userId) {
+    _sendGameAction(type: "DRAW_OFFER", gameId: gameId, userId: userId);
   }
 
-  void respondToDraw(String gameId, bool accepted) {
-    final user = _storage.getUser();
-    if (user == null || _channel == null) return;
+  void acceptDraw(String gameId, String userId) {
+    _sendGameAction(type: "DRAW_ACCEPT", gameId: gameId, userId: userId);
+  }
 
-    _channel?.sink.add(jsonEncode({
-      "message": "DRAW_RESPONSE",
-      "gameId": gameId,
-      "playerUid": user.uid,
-      "accepted": accepted,
-    }));
+  void declineDraw(String gameId, String userId) {
+    _sendGameAction(type: "DRAW_DECLINE", gameId: gameId, userId: userId);
+  }
+
+  void _sendGameAction({
+    required String type,
+    required String gameId,
+    required String userId,
+  }) {
+    if (_channel == null) return;
+    _channel?.sink.add(
+      jsonEncode({"type": type, "gameId": gameId, "userId": userId}),
+    );
   }
 
   void setOnMessageCallback(Function(Map<String, dynamic>) callback) {

@@ -1,37 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
+
+  <!-- Basic Meta -->
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="a simple chess application">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Knightly - Online Chess Platform</title>
+
+  <meta name="description" content="Knightly is a modern online chess platform where you can play real-time chess, improve your skills, and challenge players worldwide. Built with Flutter for fast and smooth gameplay.">
+  <meta name="keywords" content="chess, online chess, play chess online, multiplayer chess, real-time chess, Knightly, chess platform, Flutter chess app">
+  <meta name="author" content="Knightly">
+
+  <!-- Google Sign-in -->
+  <meta name="google-signin-client_id" content="272958348093-m9niul4u2k0geh1mfcdbst28sgl62r9j.apps.googleusercontent.com">
+
+  <!-- Mobile App Settings -->
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="chess">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="apple-mobile-web-app-title" content="Knightly">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Knightly - Online Chess Platform">
+  <meta property="og:description" content="Play real-time online chess with players worldwide. Knightly is a fast and modern chess platform built with Flutter.">
+  <meta property="og:image" content="icons/logo.png">
+  <meta property="og:url" content="https://knightlly.netlify">
+  <meta property="og:site_name" content="Knightly">
 
-  <title>chess</title>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Knightly - Online Chess Platform">
+  <meta name="twitter:description" content="Play real-time online chess with players worldwide. Built with Flutter.">
+  <meta name="twitter:image" content="icons/logo.png">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="icons/logo.png"/>
+  <link rel="apple-touch-icon" href="icons/logo.png">
+
+  <!-- Manifest -->
   <link rel="manifest" href="manifest.json">
+
+  <!-- Structured Data (SEO Boost for Google) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Knightly",
+      "url": "https://knightlly.netlify",
+      "description": "Knightly is an online chess platform for playing real-time multiplayer chess games and improving chess skills.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "All"
+    }
+  </script>
+
 </head>
+
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+<script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

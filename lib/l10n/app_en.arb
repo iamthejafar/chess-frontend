@@ -1,0 +1,166 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Knightly",
+
+  "landingTitle": "KNIGHTLY",
+  "landingTagline": "The board is set.",
+  "landingTaglineMobile": "Where classic chess meets modern mastery.",
+  "landingBody": "Discover the thrill of strategic gameplay where classic chess meets modern design. Play, learn, and challenge yourself - for enthusiasts of all levels.",
+  "landingGuestCta": "Play as Guest",
+
+  "unknownRoute": "unknown",
+  "routeNotFound": "Route not found: {routeName}",
+  "@routeNotFound": {
+    "description": "Shown when navigation receives an unknown route.",
+    "placeholders": {
+      "routeName": { "type": "String" }
+    }
+  },
+
+  "navBoard": "Board",
+  "navProfile": "Profile",
+
+  "gameStartTitle": "Ready to play?",
+  "gameStartSubtitle": "Find a match and challenge your mind.",
+  "gameStartButton": "Start Game",
+  "gameStartNew": "Start New Game",
+
+  "gameFindingOpponent": "Finding opponent\u2026",
+
+  "gameVictory": "Victory",
+  "gameDefeat": "Defeat",
+  "gameDraw": "Draw",
+
+  "gameResultWon": "You won by {reason}.",
+  "@gameResultWon": {
+    "description": "Shown when the player wins.",
+    "placeholders": {
+      "reason": { "type": "String" }
+    }
+  },
+  "gameResultLost": "You lost by {reason}.",
+  "@gameResultLost": {
+    "description": "Shown when the player loses.",
+    "placeholders": {
+      "reason": { "type": "String" }
+    }
+  },
+  "gameResultDraw": "No winner this time. Reason: {reason}.",
+  "@gameResultDraw": {
+    "description": "Shown when the game ends in a draw.",
+    "placeholders": {
+      "reason": { "type": "String" }
+    }
+  },
+  "gameOver": "Game Over",
+
+  "drawOfferLabel": "Draw offer",
+  "drawAccept": "Accept",
+  "drawDecline": "Decline",
+  "drawOfferDeclinedByOpponent": "Opponent declined your draw offer",
+
+  "promotionDialogTitle": "Choose promotion piece",
+  "promotionCancel": "Cancel",
+
+  "dataSectionGameInfo": "GAME INFO",
+  "dataSectionMoves": "MOVES",
+  "dataSectionTurn": "TURN",
+
+  "turnWhite": "White",
+  "turnBlack": "Black",
+
+  "movesNone": "No moves yet",
+
+  "drawBannerOpponentOffered": "Opponent offered a draw (respond on board)",
+  "drawBannerSent": "Draw offer sent",
+
+  "controlTooltipFirstMove": "First move",
+  "controlTooltipPrevMove": "Previous",
+  "controlTooltipNextMove": "Next",
+  "controlTooltipLastMove": "Last move",
+  "controlTooltipOfferDraw": "Offer draw",
+  "controlTooltipDrawPending": "Draw offer pending",
+  "controlTooltipResign": "Resign",
+
+  "dialogCancel": "Cancel",
+
+  "offerDrawDialogTitle": "Offer draw?",
+  "offerDrawDialogContent": "Send a draw offer to your opponent?",
+  "offerDrawDialogConfirm": "Offer",
+
+  "resignDialogTitle": "Resign?",
+  "resignDialogContent": "Are you sure you want to resign this game?",
+  "resignDialogConfirm": "Resign",
+
+  "profileEditButton": "Edit",
+  "profileEditDialogTitle": "Edit Profile",
+  "profileEditFieldName": "Display Name",
+  "profileEditFieldUsername": "Username",
+  "profileEditNameRequired": "Name is required",
+  "profileEditUsernameRequired": "Username is required",
+  "profileEditSave": "Save",
+
+  "profileUpdateSuccess": "Profile updated",
+
+  "profileSectionAccount": "Account",
+  "profileSectionStats": "Statistics",
+  "profileSectionPerformance": "Performance",
+  "profileSectionHistory": "Recent Games",
+
+  "profileAccountEmail": "Email",
+  "profileAccountMemberSince": "Member since",
+
+  "profileStatGames": "Games",
+  "profileStatWon": "Won",
+  "profileStatLost": "Lost",
+  "profileStatDraw": "Draw",
+
+  "profilePerfWinRate": "Win rate",
+  "profilePerfLossRate": "Loss rate",
+  "profilePerfDrawRate": "Draw rate",
+
+  "profileHistoryNoGames": "No games yet. Start a match to build your history.",
+  "profileHistoryEndReached": "You have reached the end of your history.",
+  "profileHistoryRetry": "Retry",
+  "profileHistoryInProgress": "In Progress",
+
+  "profileResultWin": "Win",
+  "profileResultLoss": "Loss",
+  "profileResultDraw": "Draw",
+  "profileResultWinShort": "W",
+  "profileResultLossShort": "L",
+  "profileResultDrawShort": "D",
+  "profileResultInProgressShort": "-",
+
+  "profileChipGuest": "Guest",
+
+  "profileHistoryMoves": "{count} moves",
+  "@profileHistoryMoves": {
+    "description": "Move count shown in game history row.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "profileHistoryVs": "vs {opponentId}",
+  "@profileHistoryVs": {
+    "description": "Opponent label in game history row.",
+    "placeholders": {
+      "opponentId": { "type": "String" }
+    }
+  },
+
+  "profileRatingElo": "{rating} ELO",
+  "@profileRatingElo": {
+    "description": "ELO rating pill label.",
+    "placeholders": {
+      "rating": { "type": "int" }
+    }
+  },
+
+  "profileErrorTitle": "Something went wrong",
+  "profileErrorRetry": "Try again",
+
+  "profileDateUnknown": "Unknown date"
+}
