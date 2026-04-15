@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
 import '../../dotenv.dart';
@@ -17,11 +18,11 @@ class WebSocketService {
     final user = _storage.getUser();
     if (user == null) return;
 
-    _channel = WebSocketChannel.connect(Uri.parse('ws://$liveUrl/chess'));
+    _channel = WebSocketChannel.connect(Uri.parse('wss://${liveUrl.replaceFirst("https://", "")}/chess'));
     _channel!.stream.listen(
       (message) {
 
-        print("WebSocket Message: $message");
+        debugPrint("WebSocket Message: $message");
         if (message == 'Connection established') {
           return;
         }
@@ -31,14 +32,14 @@ class WebSocketService {
             _onMessageCallback!(data);
           }
         } catch (e) {
-          print('Error decoding JSON: $e');
+          debugPrint('Error decoding JSON: $e');
         }
       },
       onError: (error) {
-        print('WebSocket Error: ${error.toString()}');
+        debugPrint('WebSocket Error: ${error.toString()}');
       },
       onDone: () {
-        print('WebSocket connection closed');
+        debugPrint('WebSocket connection closed');
       },
     );
   }
@@ -51,7 +52,7 @@ class WebSocketService {
       _channel!.sink.add(jsonEncode({"type": "INIT_GAME", "userId": userId}));
 
     } catch(e){
-      print("Error initGame message: $e");
+      debugPrint("Error initGame message: $e");
     }
   }
 

@@ -1,5 +1,4 @@
 import 'package:bishop/bishop.dart';
-import 'package:chess/dotenv.dart';
 import 'package:chess/src/features/ches_board/models/game_result_response.dart';
 import 'package:chess/src/features/ches_board/models/game_state_response.dart';
 import 'package:chess/src/features/landing/models/user_model.dart';

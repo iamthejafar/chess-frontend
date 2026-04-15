@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/colors.dart';
 
 class KnightLogo extends StatelessWidget {
   final double size;

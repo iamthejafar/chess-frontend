@@ -137,6 +137,7 @@ class AuthRepository {
         final data = response.data as Map<String, dynamic>;
 
         await _storageService.saveToken(data['token']);
+        _apiClient.setAuthToken(data['token']);
         await _storageService.saveUserId(data['userId']);
 
         return data;
@@ -161,6 +162,7 @@ class AuthRepository {
         final data = response.data as Map<String, dynamic>;
         if (data['token'] != null) {
           await _storageService.saveToken(data['token']);
+          _apiClient.setAuthToken(data['token']);
         }
         if (data['userId'] != null) {
           await _storageService.saveUserId(data['userId']);
@@ -193,6 +195,21 @@ class AuthRepository {
   Future<void> signOut() async {
     try {
       final user = await getCurrentUser();
+      final token = await _storageService.getToken();
+
+      if (token != null) {
+        try {
+          await _apiClient.post<void>(
+            '/api/auth/logout',
+            options: Options(
+              headers: {'Authorization': 'Bearer $token'},
+            ),
+          );
+        } catch (e) {
+          // Keep logout resilient: local sign-out should still succeed.
+          _logger.w('Backend logout failed, continuing local sign-out: $e');
+        }
+      }
 
       if (user?.isGuest != true) {
         await _googleSignIn.disconnect();
@@ -215,6 +232,8 @@ class AuthRepository {
   Future<void> _clearSession() async {
     await _storageService.clearToken();
     await _storageService.clearUserId();
+    await _storageService.clearUser();
+    _apiClient.clearAuthToken();
   }
 
   Future<UserModel?> getCurrentUser() async {
@@ -257,6 +276,7 @@ class AuthRepository {
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
         await _storageService.saveToken(data['token']);
+        _apiClient.setAuthToken(data['token']);
         _logger.i('Token refreshed successfully');
       } else {
         throw Exception('Failed to refresh token');

@@ -12,6 +12,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../core/colors.dart';
 import '../widgets/chess_board.dart';
 import '../widgets/knight_logo.dart';
+import 'package:chess/src/features/landing/bloc/auth_bloc.dart';
 
 // ─── Layout Constants ─────────────────────────────────────────────────────────
 
@@ -37,6 +38,10 @@ class ChessScreen extends StatelessWidget {
         backgroundColor: kAppBg,
         body: MultiBlocListener(
           listeners: [
+            BlocListener<AuthBloc, AuthState>(
+              listenWhen: _isSignedOut,
+              listener: _onSignedOut,
+            ),
             BlocListener<GameBloc, GameState>(
               listenWhen: _isDrawDeclined,
               listener: _onDrawDeclined,
@@ -54,6 +59,14 @@ class ChessScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool _isSignedOut(AuthState prev, AuthState curr) {
+    return prev is! AuthInitial && curr is AuthInitial;
+  }
+
+  void _onSignedOut(BuildContext context, AuthState state) {
+    Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
   }
 
   bool _isDrawDeclined(GameState prev, GameState curr) {
@@ -238,6 +251,11 @@ class _MobileAppBar extends StatelessWidget {
               icon: const Icon(Icons.menu_rounded, color: kTextSecondary),
               onPressed: () {},
             ),
+            IconButton(
+              icon: const Icon(Icons.logout_rounded, color: kTextSecondary),
+              tooltip: 'Logout',
+              onPressed: () => context.read<AuthBloc>().add(SignOutRequested()),
+            ),
           ],
         ),
       ),
@@ -273,6 +291,11 @@ class _NavRail extends StatelessWidget {
             tooltip: l10n.navProfile,
             onTap: () => _navigateToProfile(context),
           ),
+          _NavIcon(
+            icon: Icons.logout_rounded,
+            tooltip: 'Logout',
+            onTap: () => _logout(context),
+          ),
           const SizedBox(height: 20),
         ],
       ),
@@ -287,6 +310,10 @@ class _NavRail extends StatelessWidget {
         arguments: ProfileRouteArgs(userId: userId, viewerUserId: userId),
       );
     }
+  }
+
+  void _logout(BuildContext context) {
+    context.read<AuthBloc>().add(SignOutRequested());
   }
 }
 
